@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div id="root">
+      <div class="js-health health"></div>
+      <div class="js-scores scores"></div>
+      <div class="js-target target target--left" data-side="answer-left"></div>
+      <div class="js-target target target--right" data-side="answer-right"></div>
+      <div class="js-start-popup start-popup hidden">
+        <div class="js-start-button start-popup__start-button pointer">Start</div>
+      </div>
+      <div class="js-overlay overlay hidden"></div>
+      <div class="js-countdown countdown hidden"></div>
+    </div>
+    <script src="https://unpkg.com/rxjs@7.8.0/dist/bundles/rxjs.umd.min.js"></script>
+    <script src="app.js"></script> 
+  </body>
+</html>

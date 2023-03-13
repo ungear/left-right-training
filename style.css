@@ -1,0 +1,83 @@
+body{
+  padding: 0;
+  margin: 0;
+}
+#root{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #ccc;
+}
+
+.health{
+
+}
+
+.scores{
+
+}
+
+.target{
+  position: absolute;
+  width: 45%;
+  height: 30%; 
+  background: #888;
+}
+.target--left{
+  left:0;
+  bottom:0;
+}
+.target--right{
+  right:0;
+  bottom:0;
+}
+
+.start-popup{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 50%;
+  height: 50%;
+  background: white;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  z-index:5;
+}
+.start-popup__start-button{
+  cursor: pointer;
+  font-size: 40px;
+}
+
+.overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #aaa;
+  opacity: .8;
+  z-index:3;
+}
+
+.countdown{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  z-index:5;
+}
+
+
+.pointer{
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
