@@ -73,6 +73,8 @@
       hp$.next(newHp);
       if(newHp === 0)
         gamePhase$.next(GAME_PHASES.over);
+      else
+        gameStep$.next(TRAINING_STEPS.GUESSING);
     }
   })
 
