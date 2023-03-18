@@ -8,6 +8,7 @@
     overlay: document.querySelector('.js-overlay'),
     startButton: document.querySelector('.js-start-button'),
     countdown: document.querySelector('.js-countdown'),
+    hp: document.querySelector('.js-health'),
   };
 
   // HANDLERS BINDING
@@ -89,6 +90,24 @@
   ).subscribe((targetSide) => {
     answer$.next(targetSide);
     gameStep$.next(TRAINING_STEPS.ASSESSING_ANSWER);
+  })
+
+  hp$.subscribe(hp => {
+    const maxHp = GAME_DEFAULT_STATE.hp;
+    ELEMENTS.hp.innerHTML = '';
+    let heartIndex = 0;
+    while(heartIndex < maxHp) {
+      const heathEl = document.createElement('span');
+      heathEl.classList.add('health__heart');
+      if(hp > 0){
+        heathEl.classList.add('icon-heart');
+      } else{
+        heathEl.classList.add('icon-heart-empty');
+      }
+      ELEMENTS.hp.appendChild(heathEl);
+      heartIndex++;
+      hp--;
+    }
   })
 
   function onStartPhase(){

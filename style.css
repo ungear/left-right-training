@@ -10,8 +10,15 @@ body{
 }
 
 .health{
-
+  position: absolute;
+  top:0;
+  left:0;
 }
+.health__heart{
+  color: red;
+  font-size: 40px;
+}
+
 
 .scores{
 
