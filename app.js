@@ -14,13 +14,14 @@
   const targetButtonClick$ = fromEvent(document.querySelectorAll('.js-target'), 'click');
 
   const GAME_PHASES = {
-    start: 1,
-    playing: 2,
-    over: 3
+    start: 'start',
+    playing: 'playing',
+    over: 'over'
   };
   const gamePhase$ = new rxjs.BehaviorSubject(GAME_PHASES.start);
   gamePhase$.pipe(filter(phase => phase === GAME_PHASES.start)).subscribe(onStartPhase);
   gamePhase$.pipe(filter(phase => phase === GAME_PHASES.playing)).subscribe(onPlayingPhase);
+  gamePhase$.pipe(filter(phase => phase === GAME_PHASES.over)).subscribe(onGameOverPhase);
 
   const TRAINING_STEPS = {
     GUESSING: 'GUESSING',
@@ -59,12 +60,20 @@
 
   gameStep$.pipe(
     filter(step => step === TRAINING_STEPS.ASSESSING_ANSWER),
-    withLatestFrom(currentTask$, answer$),
-  ).subscribe(([_, currentTask, answer]) => {
+    withLatestFrom(currentTask$, answer$, hp$, scores$),
+  ).subscribe(([_, currentTask, answer, hp, scores]) => {
     const isAnswerRight = (answer === 'answer-left' && currentTask === TASKS.left)
       || (answer === 'answer-right' && currentTask === TASKS.right);
 
-    console.log(currentTask, answer, isAnswerRight)
+    if(isAnswerRight) {
+      scores$.next(scores + 1);
+      gameStep$.next(TRAINING_STEPS.GUESSING);
+    } else{
+      const newHp = hp - 1;
+      hp$.next(newHp);
+      if(newHp === 0)
+        gamePhase$.next(GAME_PHASES.over);
+    }
   })
 
   targetButtonClick$.pipe(
@@ -83,6 +92,10 @@
     hp$.next(GAME_DEFAULT_STATE.hp);
     scores$.next(GAME_DEFAULT_STATE.scores);
     gameStep$.next(GAME_DEFAULT_STATE.step);
+  }
+
+  function onGameOverPhase(){
+    console.log('game over');
   }
 
   // CONTROL HANDLERS
