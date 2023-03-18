@@ -1,5 +1,7 @@
 (function(){
   const { map, filter, fromEvent, withLatestFrom, tap } = rxjs;
+  const rightAudio = new Audio("./right-1.mp3");
+  const leftAudio = new Audio("./left-1.mp3");
 
   const ELEMENTS = {
     startPopup: document.querySelector('.js-start-popup'),
@@ -48,7 +50,11 @@
   ).subscribe(() => {
     const task = getRandomQuestion();
     currentTask$.next(task);
-    console.log('play sound '+ task);
+    if(task === TASKS.left)
+      leftAudio.play();
+    else
+      rightAudio.play();
+      
     gameStep$.next(TRAINING_STEPS.WAITING_FOR_ANSWER)
   })
 
