@@ -19,9 +19,10 @@ body{
   font-size: 40px;
 }
 
-
 .scores{
-
+  position: absolute;
+  top:0;
+  right:0;
 }
 
 .target{

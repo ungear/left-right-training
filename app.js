@@ -12,6 +12,7 @@
     startButton: document.querySelector('.js-start-button'),
     countdown: document.querySelector('.js-countdown'),
     hp: document.querySelector('.js-health'),
+    scores: document.querySelector('.js-scores'),
   };
 
   // HANDLERS BINDING
@@ -51,7 +52,7 @@
   gamePhase$.pipe(
     filter(phase => phase === GAME_PHASES.over),
     withLatestFrom(scores$),
-    map((phase, scores) => scores)
+    map(([phase, scores]) => scores)
   )
   .subscribe(onGameOverPhase);
 
@@ -119,6 +120,10 @@
       heartIndex++;
       hp--;
     }
+  })
+
+  scores$.subscribe(scores => {
+    ELEMENTS.scores.innerText = scores;
   })
 
   function onStartPhase(){
