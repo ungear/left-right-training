@@ -40,7 +40,7 @@
     hp: 3,
     scores: 0,
     step: TRAINING_STEPS.GUESSING,
-    timeSec: 60,
+    timeSec: 10,
   }
   const hp$ = new rxjs.Subject();
   const scores$ = new rxjs.Subject();
@@ -132,6 +132,10 @@
 
   timeLeft$.subscribe(timeLeft => {
     ELEMENTS.timer.innerText = timeLeft;
+  })
+
+  timeLeft$.subscribe(timeLeft => {
+    if(timeLeft === 0) gamePhase$.next(GAME_PHASES.over);
   })
 
   function onStartPhase(){
