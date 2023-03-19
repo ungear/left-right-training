@@ -5,6 +5,9 @@
 
   const ELEMENTS = {
     startPopup: document.querySelector('.js-start-popup'),
+    gameOverPopup: document.querySelector('.js-game-over-popup'),
+    gameOverScores: document.querySelector('.js-game-over-scores'),
+    gameOverRestartButton: document.querySelector('.js-restart-button'),
     overlay: document.querySelector('.js-overlay'),
     startButton: document.querySelector('.js-start-button'),
     countdown: document.querySelector('.js-countdown'),
@@ -13,6 +16,7 @@
 
   // HANDLERS BINDING
   ELEMENTS.startButton.addEventListener('click', onStartButtonClick)
+  ELEMENTS.gameOverRestartButton.addEventListener('click', onRestartButtonClick)
 
   const targetButtonClick$ = fromEvent(document.querySelectorAll('.js-target'), 'click');
 
@@ -21,11 +25,6 @@
     playing: 'playing',
     over: 'over'
   };
-  const gamePhase$ = new rxjs.BehaviorSubject(GAME_PHASES.start);
-  gamePhase$.pipe(filter(phase => phase === GAME_PHASES.start)).subscribe(onStartPhase);
-  gamePhase$.pipe(filter(phase => phase === GAME_PHASES.playing)).subscribe(onPlayingPhase);
-  gamePhase$.pipe(filter(phase => phase === GAME_PHASES.over)).subscribe(onGameOverPhase);
-
   const TRAINING_STEPS = {
     GUESSING: 'GUESSING',
     WAITING_FOR_ANSWER: 'WAITING_FOR_ANSWER',
@@ -45,6 +44,18 @@
   const gameStep$ = new rxjs.Subject();
   const currentTask$ = new rxjs.Subject();
   const answer$ = new rxjs.Subject();
+  
+  const gamePhase$ = new rxjs.BehaviorSubject(GAME_PHASES.start);
+  gamePhase$.pipe(filter(phase => phase === GAME_PHASES.start)).subscribe(onStartPhase);
+  gamePhase$.pipe(filter(phase => phase === GAME_PHASES.playing)).subscribe(onPlayingPhase);
+  gamePhase$.pipe(
+    filter(phase => phase === GAME_PHASES.over),
+    withLatestFrom(scores$),
+    map((phase, scores) => scores)
+  )
+  .subscribe(onGameOverPhase);
+
+
 
   gameStep$.pipe(
     filter(step => step === TRAINING_STEPS.GUESSING)
@@ -121,8 +132,10 @@
     gameStep$.next(GAME_DEFAULT_STATE.step);
   }
 
-  function onGameOverPhase(){
-    console.log('game over');
+  function onGameOverPhase(scores){
+    ELEMENTS.overlay.classList.remove('hidden');
+    ELEMENTS.gameOverPopup.classList.remove('hidden');
+    ELEMENTS.gameOverScores.innerText = scores;
   }
 
   // CONTROL HANDLERS
@@ -142,6 +155,12 @@
         ELEMENTS.countdown.innerText = counter;
       }
     }, 1000) 
+  }
+
+  function onRestartButtonClick(){
+    ELEMENTS.overlay.classList.add('hidden');
+    ELEMENTS.gameOverPopup.classList.add('hidden');
+    gamePhase$.next(GAME_PHASES.playing)
   }
 
   function getRandomQuestion(){

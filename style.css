@@ -39,7 +39,7 @@ body{
   bottom:0;
 }
 
-.start-popup{
+.popup{
   position: absolute;
   left: 0;
   right: 0;
@@ -51,14 +51,32 @@ body{
   background: white;
   justify-content: center;
   align-items: center;
-  display: flex;
   z-index:5;
+}
+.start-popup{
+  display: flex;
 }
 .start-popup__start-button{
   cursor: pointer;
   font-size: 40px;
 }
-
+.over-popup{
+  padding: 20px;
+}
+.over-popup__title{
+  text-align: center;
+  font-size: 40px;
+}
+.over-popup__result{
+  font-size: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 80px;
+}
+.over-popup__restart-button{
+  cursor: pointer;
+  font-size: 40px;
+}
 .overlay{
   position: absolute;
   width: 100%;

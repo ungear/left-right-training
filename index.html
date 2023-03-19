@@ -10,8 +10,16 @@
       <div class="js-scores scores"></div>
       <div class="js-target target target--left" data-side="answer-left"></div>
       <div class="js-target target target--right" data-side="answer-right"></div>
-      <div class="js-start-popup start-popup hidden">
+      <div class="js-start-popup start-popup popup hidden">
         <div class="js-start-button start-popup__start-button pointer">Start</div>
+      </div>
+      <div class="js-game-over-popup over-popup popup hidden">
+        <div class="over-popup__title">Game over</div>
+        <div class="over-popup__result">
+          <span class="over-popup__result-scores-label">Scores:</span>
+          <span class="js-game-over-scores over-popup__result-scores-number"></span>
+        </div>
+        <div class="js-restart-button over-popup__restart-button pointer">Start</div>
       </div>
       <div class="js-overlay overlay hidden"></div>
       <div class="js-countdown countdown hidden"></div>
