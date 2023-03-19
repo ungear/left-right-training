@@ -8,22 +8,27 @@ body{
   height: 100%;
   background: #ccc;
 }
-
-.health{
+.top-panel{
   position: absolute;
   top:0;
   left:0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.health{
   padding: 20px;
 }
 .health__heart{
   color: red;
   font-size: 40px;
 }
-
+.timer{
+  font-size: 50px;
+  padding: 20px;
+}
 .scores{
-  position: absolute;
-  top:0;
-  right:0;
   font-size: 50px;
   padding: 20px;
 }

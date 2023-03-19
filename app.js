@@ -1,5 +1,5 @@
 (function(){
-  const { map, filter, fromEvent, withLatestFrom, tap } = rxjs;
+  const { map, filter, fromEvent, withLatestFrom, tap, interval } = rxjs;
   const rightAudio = new Audio("./right-1.mp3");
   const leftAudio = new Audio("./left-1.mp3");
 
@@ -12,6 +12,7 @@
     startButton: document.querySelector('.js-start-button'),
     countdown: document.querySelector('.js-countdown'),
     hp: document.querySelector('.js-health'),
+    timer: document.querySelector('.js-timer'),
     scores: document.querySelector('.js-scores'),
   };
 
@@ -39,13 +40,16 @@
     hp: 3,
     scores: 0,
     step: TRAINING_STEPS.GUESSING,
+    timeSec: 60,
   }
   const hp$ = new rxjs.Subject();
   const scores$ = new rxjs.Subject();
   const gameStep$ = new rxjs.Subject();
   const currentTask$ = new rxjs.Subject();
   const answer$ = new rxjs.Subject();
-  
+  const timeLeft$ = new rxjs.Subject();
+  let timerSubscription;
+
   const gamePhase$ = new rxjs.BehaviorSubject(GAME_PHASES.start);
   gamePhase$.pipe(filter(phase => phase === GAME_PHASES.start)).subscribe(onStartPhase);
   gamePhase$.pipe(filter(phase => phase === GAME_PHASES.playing)).subscribe(onPlayingPhase);
@@ -126,18 +130,32 @@
     ELEMENTS.scores.innerText = scores;
   })
 
+  timeLeft$.subscribe(timeLeft => {
+    ELEMENTS.timer.innerText = timeLeft;
+  })
+
   function onStartPhase(){
     ELEMENTS.overlay.classList.remove('hidden');
     ELEMENTS.startPopup.classList.remove('hidden');
   }
 
+  
   function onPlayingPhase(){
     hp$.next(GAME_DEFAULT_STATE.hp);
     scores$.next(GAME_DEFAULT_STATE.scores);
     gameStep$.next(GAME_DEFAULT_STATE.step);
+
+    timerSubscription = interval(1000).pipe(
+      withLatestFrom(timeLeft$)
+    ).subscribe(([_, timeLeft]) => {
+      timeLeft$.next(timeLeft - 1);
+    });
+
+    timeLeft$.next(GAME_DEFAULT_STATE.timeSec);
   }
 
   function onGameOverPhase(scores){
+    timerSubscription?.unsubscribe();
     ELEMENTS.overlay.classList.remove('hidden');
     ELEMENTS.gameOverPopup.classList.remove('hidden');
     ELEMENTS.gameOverScores.innerText = scores;
