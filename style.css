@@ -1,6 +1,7 @@
 body{
   padding: 0;
   margin: 0;
+  font-family: 'Arial';
 }
 #root{
   position: relative;
@@ -35,17 +36,18 @@ body{
   width: 100%;
   display: flex;
   justify-content: space-between;
+  font-size: 25px;
 }
 
 .health{
   padding: 20px;
+  display: flex;
+  align-items: center;
 }
 .health__heart{
   color: red;
-  font-size: 40px;
 }
 .timer{
-  font-size: 50px;
   padding: 20px;
   position: absolute;
   left: 0;
@@ -55,7 +57,6 @@ body{
   text-align: center;
 }
 .scores{
-  font-size: 50px;
   padding: 20px;
 }
 
