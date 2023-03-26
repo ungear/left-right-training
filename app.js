@@ -3,6 +3,9 @@
   const rightAudio = new Audio("./right-1.mp3");
   const leftAudio = new Audio("./left-1.mp3");
 
+  const FRAME_ANIMATION_SEC = 0.5;
+  document.body.style.setProperty('--frame-animation-sec', FRAME_ANIMATION_SEC + 's')
+
   const ELEMENTS = {
     startPopup: document.querySelector('.js-start-popup'),
     gameOverPopup: document.querySelector('.js-game-over-popup'),
@@ -14,6 +17,7 @@
     hp: document.querySelector('.js-health'),
     timer: document.querySelector('.js-timer'),
     scores: document.querySelector('.js-scores'),
+    frame: document.querySelector('.js-frame'),
   };
 
   // HANDLERS BINDING
@@ -40,7 +44,7 @@
     hp: 3,
     scores: 0,
     step: TRAINING_STEPS.GUESSING,
-    timeSec: 10,
+    timeSec: 60,
   }
   const hp$ = new rxjs.Subject();
   const scores$ = new rxjs.Subject();
@@ -59,8 +63,6 @@
     map(([phase, scores]) => scores)
   )
   .subscribe(onGameOverPhase);
-
-
 
   gameStep$.pipe(
     filter(step => step === TRAINING_STEPS.GUESSING)
@@ -99,6 +101,17 @@
       else
         gameStep$.next(TRAINING_STEPS.GUESSING);
     }
+
+    if(isAnswerRight) {
+      ELEMENTS.frame.classList.add('frame--right');
+    } else{
+      ELEMENTS.frame.classList.add('frame--wrong');
+    }
+
+    setTimeout(() => {
+      ELEMENTS.frame.classList.remove('frame--right');
+      ELEMENTS.frame.classList.remove('frame--wrong');
+    }, FRAME_ANIMATION_SEC * 1000)
   })
 
   targetButtonClick$.pipe(

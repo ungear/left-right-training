@@ -8,6 +8,26 @@ body{
   height: 100%;
   background: #ccc;
 }
+.frame{
+  position: fixed;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  pointer-events: none;
+  z-index:2;
+  opacity: 1;
+  transition: opacity;
+  transition-duration: var(--frame-animation-sec);
+}
+.frame--right{
+  border: 10px solid green;
+  opacity: 0;
+}
+.frame--wrong{
+  border: 10px solid red;
+  opacity: 0;
+}
 .top-panel{
   position: absolute;
   top:0;
@@ -66,7 +86,7 @@ body{
   background: white;
   justify-content: center;
   align-items: center;
-  z-index:5;
+  z-index:10;
 }
 .start-popup{
   display: flex;
@@ -98,7 +118,7 @@ body{
   height: 100%;
   background: #aaa;
   opacity: .8;
-  z-index:3;
+  z-index:5;
 }
 
 .countdown{
@@ -111,7 +131,7 @@ body{
   justify-content: center;
   align-items: center;
   display: flex;
-  z-index:5;
+  z-index:10;
 }
 
 
