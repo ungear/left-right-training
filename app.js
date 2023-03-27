@@ -45,6 +45,7 @@
     scores: 0,
     step: TRAINING_STEPS.GUESSING,
     timeSec: 60,
+    startTimerSec: 3,
   }
   const hp$ = new rxjs.Subject();
   const scores$ = new rxjs.Subject();
@@ -182,7 +183,7 @@
   function onStartButtonClick(){
     ELEMENTS.startPopup.classList.add('hidden');
     ELEMENTS.countdown.classList.remove('hidden');
-    let counter = 1;
+    let counter = GAME_DEFAULT_STATE.startTimerSec;
     ELEMENTS.countdown.innerText = counter;
     const timer = setInterval(() => {
       if(counter === 1 ){
