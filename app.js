@@ -1,7 +1,7 @@
 (function(){
   const { map, filter, fromEvent, withLatestFrom, tap, interval } = rxjs;
-  const rightAudio = new Audio("./right-1.mp3");
-  const leftAudio = new Audio("./left-1.mp3");
+  const rightAudio = new Audio("./right-2-f.mp3");
+  const leftAudio = new Audio("./left-2-f.mp3");
 
   const FRAME_ANIMATION_SEC = 0.5;
   document.body.style.setProperty('--frame-animation-sec', FRAME_ANIMATION_SEC + 's')
